@@ -25,7 +25,7 @@ action :before_compile do
   end
 
   unless new_resource.migration_command
-    command = "rake db:migrate"
+    command = "#{bundle_command} exec rake db:migrate"
     command = "#{bundle_command} exec #{command}" if new_resource.bundler
     new_resource.migration_command command
   end
@@ -107,21 +107,12 @@ action :before_migrate do
     #
     # maybe worth doing run_symlinks_before_migrate before before_migrate callbacks,
     # or an add'l callback.
-    execute "(ln -s ../../../shared/database.yml config/database.yml && rake gems:install); rm config/database.yml" do
+    execute "(ln -s ../../../shared/database.yml config/database.yml && #{bundle_command} exec rake gems:install); rm config/database.yml" do
       cwd new_resource.release_path
       user new_resource.owner
       environment new_resource.environment
     end
   end
-
-  gem_names = new_resource.gems.map { |gem, ver| gem }
-  if new_resource.migration_command.include?('rake') && !gem_names.include?('rake')
-    gem_package "rake" do
-      action :install
-      not_if "which rake"
-    end
-  end
-
 end
 
 action :before_symlink do
@@ -140,7 +131,7 @@ action :before_symlink do
   end
 
   if new_resource.precompile_assets
-    command = "rake assets:precompile"
+    command = "#{bundle_command} exec rake assets:precompile"
     command = "#{bundle_command} exec #{command}" if new_resource.bundler
     execute command do
       cwd new_resource.release_path
