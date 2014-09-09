@@ -73,6 +73,7 @@ action :before_restart do
     copy_on_write new_resource.copy_on_write
     enable_stats new_resource.enable_stats
     init_style new_resource.init_style if new_resource.init_style != "runit"
+    rack_env new_resource.environment_name
   end
 
   if new_resource.init_style == "runit"
