@@ -32,10 +32,12 @@ action :before_compile do
 
   new_resource.bundle_command rails_resource && rails_resource.bundle_command
 
-  unless new_resource.restart_command
-    new_resource.restart_command do
-      execute "/etc/init.d/#{new_resource.name} hup" do
-        user "root"
+  if new_resource.init_style == "runit"
+    unless new_resource.restart_command
+      new_resource.restart_command do
+        execute "/etc/init.d/#{new_resource.name} hup" do
+          user "root"
+        end
       end
     end
   end
