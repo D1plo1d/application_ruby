@@ -39,6 +39,7 @@ attribute :unicorn_command_line, :kind_of => [String, NilClass], :default => nil
 attribute :copy_on_write, :kind_of => [TrueClass, FalseClass], :default => false
 attribute :enable_stats, :kind_of => [TrueClass, FalseClass], :default => false
 attribute :runit_template_cookbook, :kind_of => String, :default => 'application_ruby'
+attribute :init_style, :kind_of => [String, NilClass], :default => 'runit'
 
 def options(*args, &block)
   @options ||= Mash[:tcp_nodelay => true, :backlog => 100]
