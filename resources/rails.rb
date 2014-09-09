@@ -37,3 +37,8 @@ def database(*args, &block)
   @database ||= Mash.new
   @database.update(options_block(*args, &block))
 end
+
+def logrotate_rails(*args, &block)
+  @logrotate_rails ||= Mash.new
+  @logrotate_rails.update(options_block(*args, &block))
+end

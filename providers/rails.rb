@@ -204,11 +204,15 @@ def symlink_logs
     group resource.group
   end
 
+  r = new_resource.logrotate_rails
+  r[:rotate]    = 100      if r.rotate.nil?
+  r[:frequency] = "hourly" if r.frequency.nil?
+
   logrotate_app resource.name do
     cookbook "logrotate"
     path "#{resource.path}/shared/#{resource.environment_name}.log"
-    frequency "daily"
-    rotate 30
+    frequency r[:frequency]
+    rotate r[:rotate]
     create "666 #{resource.owner} #{resource.group}"
   end
 end
