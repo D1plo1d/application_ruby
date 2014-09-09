@@ -72,9 +72,10 @@ action :before_restart do
     unicorn_command_line new_resource.unicorn_command_line
     copy_on_write new_resource.copy_on_write
     enable_stats new_resource.enable_stats
+    init_style new_resource.init_style if new_resource.init_style != "runit"
   end
 
-  if new_resource.daemonization == "runit"
+  if new_resource.init_style == "runit"
     runit_service new_resource.name do
       run_template_name 'unicorn'
       log_template_name 'unicorn'
