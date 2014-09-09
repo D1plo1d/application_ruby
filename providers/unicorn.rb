@@ -56,11 +56,11 @@ end
 action :before_restart do
 
   new_resource = @new_resource
-  if new_resource.unicorn_config_path.nil?
-    new_resource.unicorn_config_path "/etc/unicorn/#{new_resource.name}.rb"
+  if new_resource.config_path.nil?
+    new_resource.config_path "/etc/unicorn/#{new_resource.name}.rb"
   end
 
-  unicorn_config new_resource.unicorn_config_path do
+  unicorn_config new_resource.config_path do
     listen(new_resource.listen || { new_resource.port => new_resource.options })
     working_directory ::File.join(new_resource.path, 'current')
     worker_timeout new_resource.worker_timeout
