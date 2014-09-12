@@ -63,6 +63,8 @@ action :before_restart do
     worker_processes new_resource.worker_processes
     before_fork new_resource.before_fork
     after_fork new_resource.after_fork
+    owner new_resource.owner if new_resource.owner
+    group new_resource.group in new_resource.group
     forked_user new_resource.forked_user
     forked_group new_resource.forked_group
     before_exec new_resource.before_exec
