@@ -205,8 +205,8 @@ def symlink_logs
   end
 
   r = new_resource.logrotate_rails
-  r[:rotate]    = 100      if r.rotate.nil?
-  r[:frequency] = "hourly" if r.frequency.nil?
+  r[:rotate]    = 100      if r[:rotate].nil?
+  r[:frequency] = "hourly" if r[:frequency].nil?
 
   logrotate_app resource.name do
     cookbook "logrotate"
